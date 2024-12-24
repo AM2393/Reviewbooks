@@ -1,0 +1,37 @@
+{
+  "name": "bookclubs",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "@mdi/react": "^1.6.1",
+    "@react-oauth/google": "^0.12.1",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "install": "^0.13.0",
+    "npm": "^10.9.1",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-datepicker": "^7.5.0",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.81.0"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3001 react-scripts start",
+    "build": "react-scripts build",
+    "lint": "eslint .",
+    "prettier:check": "prettier --check \"**/*.js\"",
+    "prettier:write": "prettier --write \"**/*.js\""
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.12.0",
+    "prettier": "^3.3.3",
+    "react-router-dom": "^6.28.0"
+  }
+}
