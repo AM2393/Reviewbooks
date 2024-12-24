@@ -1,4 +1,4 @@
-{
+{"homepage": "https://am2393.github.io/Reviewbooks/",
   "name": "bookclubs",
   "version": "0.1.0",
   "private": true,
@@ -22,7 +22,9 @@
     "build": "react-scripts build",
     "lint": "eslint .",
     "prettier:check": "prettier --check \"**/*.js\"",
-    "prettier:write": "prettier --write \"**/*.js\""
+    "prettier:write": "prettier --write \"**/*.js\"", 
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
