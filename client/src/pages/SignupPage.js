@@ -57,7 +57,7 @@ const SignupPage = () => {
     try {
       const response = await fetch(`${SERVER_API}/users`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Access-Control-Allow-Origin':' *','Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(newUser),
       });
