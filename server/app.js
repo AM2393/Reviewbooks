@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = 3000;
+const host = '0.0.0.0';
 
 const corsOptions = {
   origin: "http://localhost:3001", // Allow only the frontend origin
@@ -84,6 +85,6 @@ app.get("/", (req, res) => {
     `);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(port, host, () => {
+  console.log(`Server running on http://${host}:${port}`);
 });
