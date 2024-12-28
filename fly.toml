@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for amulanga-reviewbooks on 2024-12-28T11:35:57Z
+# fly.toml app configuration file generated for amulanga-reviewbooks on 2024-12-28T11:43:46Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'amulanga-reviewbooks'
-primary_region = 'fra'
+primary_region = 'arn'
 
 [build]
 
