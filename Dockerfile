@@ -30,4 +30,4 @@ WORKDIR /app/server
 EXPOSE 8080
 
 # Start the server
-CMD ["node", "app.js"]
+CMD npm run init-db && node app.js
