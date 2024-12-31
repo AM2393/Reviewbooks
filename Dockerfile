@@ -29,5 +29,5 @@ WORKDIR /app/server
 # Expose the port your server runs on
 EXPOSE 8080
 
-# Start the server
+# Run the init-db script and then start the server
 CMD npm run init-db && node app.js
