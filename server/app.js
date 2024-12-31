@@ -2,12 +2,27 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const fs = require("fs").promises;
 
 const app = express();
 const port = process.env.PORT || 8080;
 const host = "0.0.0.0";
 
-// Update cors options to include your Fly.io domain
+// Database path from environment variable
+const dbPath =
+  process.env.DB_PATH || path.join(__dirname, "../data/database.sqlite");
+
+// Ensure data directory exists
+async function ensureDataDir() {
+  const dataDir = path.dirname(dbPath);
+  try {
+    await fs.access(dataDir);
+  } catch {
+    await fs.mkdir(dataDir, { recursive: true });
+  }
+}
+
+// Update cors options
 const corsOptions = {
   origin: [
     "http://localhost:3001",
@@ -21,6 +36,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+// Serve static files from the React app BEFORE API routes
+app.use(express.static(path.join(__dirname, "../client/build")));
+
 // API routes
 const testController = require("./controller/test");
 const usersController = require("./controller/users");
@@ -31,10 +55,6 @@ const genresController = require("./controller/genres");
 const bookController = require("./controller/book");
 const reviewController = require("./controller/reviews");
 
-// Serve static files from the React app BEFORE API routes
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-// API routes
 app.use("/api/v1/test", testController);
 app.use("/api/v1/users", usersController);
 app.use("/api/v1/clubs", clubsController);
@@ -44,44 +64,24 @@ app.use("/api/v1/genres", genresController);
 app.use("/api/v1/book", bookController);
 app.use("/api/v1/reviews", reviewController);
 
-// Swagger configuration
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
-
-const swaggerOptions = {
-  definition: {
-    openapi: "3.1.0",
-    info: {
-      title: "OpenPage API",
-      version: "0.0.1",
-      description: "API for OpenPage",
-    },
-    servers: [
-      {
-        url: "https://amulanga-reviewbooks.fly.dev/api/v1",
-        description: "Flyio deployment server API",
-      },
-    ],
-    tags: [
-      {
-        name: "Test",
-        description: "Reference implementation of API and basic functionality",
-      },
-      { name: "Users", description: "User related endpoints" },
-    ],
-  },
-  apis: ["./app.js", "./controller/test.js", "./controller/*.js"],
-};
-
-const swaggerSpec = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-
 // The "catchall" handler: for any request that doesn't match an API route,
 // send back React's index.html file.
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-app.listen(port, host, () => {
-  console.log(`Server running on http://${host}:${port}`);
-});
+// Initialize server with database directory check
+async function startServer() {
+  try {
+    await ensureDataDir();
+    app.listen(port, host, () => {
+      console.log(`Server running on http://${host}:${port}`);
+      console.log(`Database path: ${dbPath}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+}
+
+startServer();
