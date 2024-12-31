@@ -21,7 +21,7 @@ function get(userId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -36,7 +36,7 @@ function getByEmail(userEmail) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -52,7 +52,7 @@ function getAll(userId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -74,7 +74,7 @@ function patch(user, newData) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -104,7 +104,7 @@ function create(user) {
           email: user.email,
         };
         resolve(newUser);
-      }
+      },
     );
   });
 }

@@ -6,9 +6,7 @@ const schema = {
   properties: {
     name: { type: "string" },
   },
-  required: [
-    "name",
-  ],
+  required: ["name"],
   additionalProperties: false,
 };
 
@@ -27,9 +25,7 @@ async function CreateAbl(req, res) {
       return;
     }
 
-    res.status(201).json(
-      await genreDao.create(req.body),
-    );
+    res.status(201).json(await genreDao.create(req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,

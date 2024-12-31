@@ -2,7 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database/OpenPage");
 
 db.serialize(() => {
-	db.run(`CREATE TABLE IF NOT EXISTS Users (
+  db.run(`CREATE TABLE IF NOT EXISTS Users (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		first_name TEXT NOT NULL,
 		last_name TEXT NOT NULL,
@@ -10,7 +10,7 @@ db.serialize(() => {
 		password TEXT NOT NULL
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Clubs (
+  db.run(`CREATE TABLE IF NOT EXISTS Clubs (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL,
 		description TEXT,
@@ -19,7 +19,7 @@ db.serialize(() => {
 		CONSTRAINT Clubs_Users_FK FOREIGN KEY (id) REFERENCES Users(id)
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS ClubMembers (
+  db.run(`CREATE TABLE IF NOT EXISTS ClubMembers (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		user_id INTEGER NOT NULL,
 		club_id INTEGER NOT NULL,
@@ -27,17 +27,17 @@ db.serialize(() => {
 		CONSTRAINT ClubMembers_Clubs_FK FOREIGN KEY(id) REFERENCES Clubs(id)
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Authors (
+  db.run(`CREATE TABLE IF NOT EXISTS Authors (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		full_name TEXT NOT NULL
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Genres (
+  db.run(`CREATE TABLE IF NOT EXISTS Genres (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Books (
+  db.run(`CREATE TABLE IF NOT EXISTS Books (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		title TEXT NOT NULL,
 		isbn TEXT NOT NULL UNIQUE,
@@ -49,7 +49,7 @@ db.serialize(() => {
 		CONSTRAINT Books_Genres_FK FOREIGN KEY(id) REFERENCES Genres(id)
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Events (
+  db.run(`CREATE TABLE IF NOT EXISTS Events (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		description TEXT NOT NULL,
 		start_date TEXT NOT NULL,
@@ -60,7 +60,7 @@ db.serialize(() => {
 		CONSTRAINT Events_Clubs_FK FOREIGN KEY(id) REFERENCES Clubs(id)
 	);`);
 
-	db.run(`CREATE TABLE IF NOT EXISTS Reviews (
+  db.run(`CREATE TABLE IF NOT EXISTS Reviews (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		review TEXT NOT NULL,
 		author_id INTEGER NOT NULL,
@@ -72,9 +72,9 @@ db.serialize(() => {
 		CONSTRAINT Reviews_Events_FK FOREIGN KEY(id) REFERENCES Events(id)
 	);`);
 
-	// Insert data 
+  // Insert data
 
-	db.run(`INSERT INTO Users (id, first_name, last_name, email, password)
+  db.run(`INSERT INTO Users (id, first_name, last_name, email, password)
 		VALUES
 		(1, 'John', 'Doe', 'johndoe@example.com', 'password123'),
 		(2, 'Jane', 'Smith', 'janecsmith@example.com', 'password456'),
@@ -83,7 +83,7 @@ db.serialize(() => {
 		(5, 'Test', 'User2', 'testuser2@example.com', 'password345');
 	`);
 
-	db.run(`INSERT INTO Clubs (id, name, description, user_id, created_at)
+  db.run(`INSERT INTO Clubs (id, name, description, user_id, created_at)
 		VALUES
 		(1, 'Book Club', 'A club for book lovers', 1, '2023-01-01T18:04:09.007Z'),
 		(2, 'Reading Group', 'A group for readers to discuss books', 2, '2023-02-02T18:48:18.004Z'),
@@ -92,7 +92,7 @@ db.serialize(() => {
 		(5, 'Reading Retreat', 'A retreat for readers to relax and read', 5, '2023-05-05T15:48:20.823Z');
 	`);
 
-	db.run(`INSERT INTO ClubMembers (id, user_id, club_id)
+  db.run(`INSERT INTO ClubMembers (id, user_id, club_id)
 		VALUES
 		(1, 1, 1),
 		(2, 1, 3),
@@ -101,7 +101,7 @@ db.serialize(() => {
 		(5, 3, 5);
 	`);
 
-	db.run(`INSERT INTO Authors (id, full_name)
+  db.run(`INSERT INTO Authors (id, full_name)
 		VALUES
 		(1, 'John Smith'),
 		(2, 'Jane Doe'),
@@ -121,7 +121,7 @@ db.serialize(() => {
 		(16, 'Zdeněk Jirotka');
 	`);
 
-	db.run(`INSERT INTO Genres (id, name)
+  db.run(`INSERT INTO Genres (id, name)
 		VALUES
 		(1, 'Fiction'),
 		(2, 'Non-Fiction'),
@@ -140,8 +140,8 @@ db.serialize(() => {
 		(15, 'Self-Help');
 	`);
 
-	db.run(
-		`INSERT INTO Books (id, title, isbn, author_id, cover_url, genre_id, description)
+  db.run(
+    `INSERT INTO Books (id, title, isbn, author_id, cover_url, genre_id, description)
 		VALUES
 		(1, 'To Kill a Mockingbird', '9780446536473', 1, 'https://picsum.photos/200?random=1', 1, 'Classic novel'),
 		(2, 'The Great Gatsby', '9780743273565', 2, 'https://picsum.photos/200?random=2', 1, 'Classic novel'),
@@ -154,10 +154,10 @@ db.serialize(() => {
 		(9, 'Foundation', '9780553293357', 9, 'https://picsum.photos/200?random=9', 7, 'A mathematician''s plan to preserve knowledge in a collapsing empire.'),
 		(10, 'Murder on the Orient Express', '9780062073501', 10, 'https://picsum.photos/200?random=10', 8, 'A murder mystery solved aboard a luxurious train.');
 	`,
-	);
+  );
 
-	db.run(
-		`INSERT INTO Reviews (id, review, author_id, book_id, event_id, created_at)
+  db.run(
+    `INSERT INTO Reviews (id, review, author_id, book_id, event_id, created_at)
 		VALUES
 		(1, 'I loved this book! It was so well-written and engaging 1.', 1, 5, 2,'2024-02-15T18:04:09.264Z'),
 		(6, 'I loved this book! It was so well-written and engaging 3.', 1, 5, 2,'2026-02-15T18:04:09.264Z'),
@@ -167,10 +167,10 @@ db.serialize(() => {
 		(4, 'This event was so much fun! The author was great and the Q&A was really interesting.', 1, 1, 1, '2024-02-20T20:20:52.420Z'),
 		(5, 'I had a hard time getting into this book, but it was worth sticking with. Good character development!', 2, 3, 4, '2024-05-15T25:48:20.823Z');
 	`,
-	);
+  );
 
-	db.run(
-		`INSERT INTO Events (id, description, start_date, end_date, book_id, club_id)
+  db.run(
+    `INSERT INTO Events (id, description, start_date, end_date, book_id, club_id)
 		VALUES
 		(1, 'Book discussion and Q&A', '2023-02-20T10:00:00.000Z', '2025-02-20T12:00:00.000Z', 1, 1),
 		(2, 'Author talk and signing', '2023-03-15T14:00:00.000Z', '2025-03-15T16:00:00.000Z', 5, 4),
@@ -180,7 +180,7 @@ db.serialize(() => {
 		(6, 'Workshop: Writing your first novel', '2024-08-15T10:00:00.000Z', '2024-08-05T12:00:00.000Z', 7, 5),
 		(7, 'Author talk and signing', '2024-06-15T10:00:00.000Z', '2025-08-10T11:00:00.000Z', 7, 5);
 	`,
-	);
+  );
 });
 
 module.exports = db;

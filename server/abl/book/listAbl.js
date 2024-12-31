@@ -7,22 +7,22 @@ const schema = {
     page: {
       type: "number",
       multipleOf: 1,
-      minimum: 1
+      minimum: 1,
     },
     limit: {
       type: "number",
       multipleOf: 1,
       minimum: 1,
-      default: 1
+      default: 1,
     },
     filter: {
-      type: [ "string", "array" ],
-      default: ["None"]
+      type: ["string", "array"],
+      default: ["None"],
     },
     search: {
       type: "string",
-      default: ""
-    }
+      default: "",
+    },
   },
   required: ["page", "limit"],
   additionalProperties: false,
@@ -32,17 +32,16 @@ const bookDao = require("../../dao/book-dao.js");
 
 async function ListAbl(req, res) {
   try {
-
     // console.log({query: req.query})
 
     let dtoIn = {
       page: Number(req.query.page),
       limit: Number(req.query.limit),
       filter: JSON.parse(req.query.filter),
-      search: JSON.parse(req.query.search)
-    }
-    if(dtoIn.filter === "null") {
-      dtoIn = {...dtoIn, filter: "None"}
+      search: JSON.parse(req.query.search),
+    };
+    if (dtoIn.filter === "null") {
+      dtoIn = { ...dtoIn, filter: "None" };
     }
 
     // console.log({dtoIn})
@@ -55,8 +54,13 @@ async function ListAbl(req, res) {
       });
       return;
     }
-    
-    const bookList = await bookDao.listBooks(dtoIn.page, dtoIn.limit, dtoIn.filter, dtoIn.search);
+
+    const bookList = await bookDao.listBooks(
+      dtoIn.page,
+      dtoIn.limit,
+      dtoIn.filter,
+      dtoIn.search,
+    );
     // console.log({bookList})
     const bookListNum = await bookDao.listBooksNum(dtoIn.filter, dtoIn.search);
     // console.log({bookListNum})
@@ -68,7 +72,7 @@ async function ListAbl(req, res) {
       return;
     }
 
-    res.status(200).json({count: bookListNum["count"], books: bookList});
+    res.status(200).json({ count: bookListNum["count"], books: bookList });
   } catch (e) {
     res.status(500).json({
       message: e.message,

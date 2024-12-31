@@ -7,18 +7,21 @@ const app = express();
 const port = process.env.PORT || 8080;
 const host = "0.0.0.0";
 
+// Update cors options to include your Fly.io domain
 const corsOptions = {
-  origin: ["http://localhost:3001", "https://amulanga-reviewbooks.fly.dev"], // Allow frontend origin and Fly.io domain
-  credentials: true, // Allow cookies and credentials
+  origin: [
+    "http://localhost:3001",
+    "https://amulanga-reviewbooks.fly.dev",
+    "http://localhost:8080",
+  ],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
-
+// API routes
 const testController = require("./controller/test");
 const usersController = require("./controller/users");
 const clubsController = require("./controller/clubs");
@@ -27,6 +30,9 @@ const authorsController = require("./controller/authors");
 const genresController = require("./controller/genres");
 const bookController = require("./controller/book");
 const reviewController = require("./controller/reviews");
+
+// Serve static files from the React app BEFORE API routes
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 // API routes
 app.use("/api/v1/test", testController);
@@ -38,6 +44,10 @@ app.use("/api/v1/genres", genresController);
 app.use("/api/v1/book", bookController);
 app.use("/api/v1/reviews", reviewController);
 
+// Swagger configuration
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
 const swaggerOptions = {
   definition: {
     openapi: "3.1.0",
@@ -48,7 +58,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `https://amulanga-reviewbooks.fly.dev:${port}/api/v1/`,
+        url: "https://amulanga-reviewbooks.fly.dev/api/v1",
         description: "Flyio deployment server API",
       },
     ],
@@ -64,25 +74,11 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-// /**
-//  * @openapi
-//  * /:
-//  *   get:
-//  *     description: Returns Hello World!
-//  *     responses:
-//  *       200:
-//  *         description: Hello World!
-//  */
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get("/", (req, res) => {
+// The "catchall" handler: for any request that doesn't match an API route,
+// send back React's index.html file.
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 

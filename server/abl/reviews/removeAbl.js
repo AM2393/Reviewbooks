@@ -5,9 +5,9 @@ const schema = {
   type: "object",
   properties: {
     id: { type: "integer" },
-    userId: { type: "integer" }
+    userId: { type: "integer" },
   },
-  required: ["id", "userId"]
+  required: ["id", "userId"],
 };
 
 const reviewDao = require("../../dao/reviews-dao.js");
@@ -20,7 +20,7 @@ async function RemoveAbl(req, res) {
         status: 400,
         type: "error",
         message: "Invalid request",
-        validationError: ajv.errors
+        validationError: ajv.errors,
       });
       return;
     }
@@ -30,7 +30,7 @@ async function RemoveAbl(req, res) {
       res.status(404).json({
         status: 404,
         type: "error",
-        message: "Review not found"
+        message: "Review not found",
       });
       return;
     }
@@ -39,7 +39,7 @@ async function RemoveAbl(req, res) {
       res.status(403).json({
         status: 403,
         type: "error",
-        message: "Unauthorized to remove this review"
+        message: "Unauthorized to remove this review",
       });
       return;
     }
@@ -48,16 +48,15 @@ async function RemoveAbl(req, res) {
 
     res.status(200).json({
       status: 200,
-      message: "Review removed successfully"
+      message: "Review removed successfully",
     });
   } catch (e) {
     res.status(500).json({
       status: 500,
       type: "error",
-      message: e.message
+      message: e.message,
     });
   }
 }
 
 module.exports = RemoveAbl;
-

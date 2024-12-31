@@ -8,11 +8,7 @@ const schema = {
     description: { type: "string" },
     user_id: { type: "integer" },
   },
-  required: [
-    "name",
-    "description",
-    "user_id",
-  ],
+  required: ["name", "description", "user_id"],
   additionalProperties: false,
 };
 
@@ -34,9 +30,7 @@ async function CreateAbl(req, res) {
     // TODO: check if user_id is valid user id?
     // TODO: how to handle duplicates?
 
-    res.status(201).json(
-      await clubDao.create(req.body),
-    );
+    res.status(201).json(await clubDao.create(req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,

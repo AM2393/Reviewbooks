@@ -9,7 +9,7 @@ const schema = {
     author: { type: "string" },
     cover_url: { type: "string" },
     genre: { type: "string" },
-    description: { type: "string" }
+    description: { type: "string" },
   },
   required: ["title", "isbn", "author", "genre"],
   additionalProperties: false,
@@ -48,4 +48,3 @@ async function CreateAbl(req, res) {
 }
 
 module.exports = CreateAbl;
-

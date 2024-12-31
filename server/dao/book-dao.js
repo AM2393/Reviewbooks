@@ -2,21 +2,27 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database/OpenPage");
 
 function listBooks(page, limit, filter, search) {
-
   let filterString = "";
-  let tempFilter = (Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None") ? JSON.stringify(filter) : "";
+  let tempFilter =
+    Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None"
+      ? JSON.stringify(filter)
+      : "";
 
-  if (Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None") {
+  if (
+    Array.isArray(filter) == true &&
+    filter.length > 0 &&
+    filter[0] != "None"
+  ) {
+    tempFilter = tempFilter.slice(1);
+    tempFilter = tempFilter.slice(0, tempFilter.length - 1);
 
-    tempFilter = tempFilter.slice(1)
-    tempFilter = tempFilter.slice(0, tempFilter.length - 1)
-
-    filterString = `Genres.name IN (${tempFilter})`
+    filterString = `Genres.name IN (${tempFilter})`;
   }
-  if (typeof filter == "string" && filter != "None") filterString = `Genres.name="${filter}"`
+  if (typeof filter == "string" && filter != "None")
+    filterString = `Genres.name="${filter}"`;
 
-  const searchString = (search.length > 0) ? `instr(LOWER(Books.title), LOWER("${search}"))` : "";
-
+  const searchString =
+    search.length > 0 ? `instr(LOWER(Books.title), LOWER("${search}"))` : "";
 
   return new Promise((resolve, reject) => {
     db.all(
@@ -32,10 +38,10 @@ function listBooks(page, limit, filter, search) {
          Books
        INNER JOIN Authors ON Books.author_id=Authors.id
        INNER JOIN Genres ON Books.genre_id=Genres.id
-       ${(searchString != "" || filterString != "") ? "WHERE" : ""}
+       ${searchString != "" || filterString != "" ? "WHERE" : ""}
          ${searchString}
-         ${(Array.isArray(filter) && searchString != "" && filterString != "" && filter[0] != "None") ? "AND" : ""}
-         ${(!Array.isArray(filter) && searchString != "" && filterString != "" && filter != "None") ? "AND" : ""}
+         ${Array.isArray(filter) && searchString != "" && filterString != "" && filter[0] != "None" ? "AND" : ""}
+         ${!Array.isArray(filter) && searchString != "" && filterString != "" && filter != "None" ? "AND" : ""}
          ${filterString}
        LIMIT ${limit} OFFSET ${(page - 1) * limit}
       `,
@@ -45,7 +51,7 @@ function listBooks(page, limit, filter, search) {
           return;
         }
         resolve(rows);
-      }
+      },
     );
   });
 }
@@ -55,21 +61,27 @@ function listBooks(page, limit, filter, search) {
 */
 
 function listBooksNum(filter, search) {
-
   let filterString = "";
-  let tempFilter = (Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None") ? JSON.stringify(filter) : "";
+  let tempFilter =
+    Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None"
+      ? JSON.stringify(filter)
+      : "";
 
-  if (Array.isArray(filter) == true && filter.length > 0 && filter[0] != "None") {
+  if (
+    Array.isArray(filter) == true &&
+    filter.length > 0 &&
+    filter[0] != "None"
+  ) {
+    tempFilter = tempFilter.slice(1);
+    tempFilter = tempFilter.slice(0, tempFilter.length - 1);
 
-    tempFilter = tempFilter.slice(1)
-    tempFilter = tempFilter.slice(0, tempFilter.length - 1)
-
-    filterString = `Genres.name IN (${tempFilter})`
+    filterString = `Genres.name IN (${tempFilter})`;
   }
-  if (typeof filter == "string" && filter != "None") filterString = `Genres.name="${filter}"`
+  if (typeof filter == "string" && filter != "None")
+    filterString = `Genres.name="${filter}"`;
 
-  const searchString = (search.length > 0) ? `instr( Books.title, "${search}" )` : "";
-
+  const searchString =
+    search.length > 0 ? `instr( Books.title, "${search}" )` : "";
 
   return new Promise((resolve, reject) => {
     db.all(
@@ -77,10 +89,10 @@ function listBooksNum(filter, search) {
        FROM 
          Books
        INNER JOIN Genres ON Books.genre_id=Genres.id
-       ${(searchString != "" || filterString != "") ? "WHERE" : ""}
+       ${searchString != "" || filterString != "" ? "WHERE" : ""}
          ${searchString}
-         ${(Array.isArray(filter) && searchString != "" && filterString != "" && filter[0] != "None") ? "AND" : ""}
-         ${(!Array.isArray(filter) && searchString != "" && filterString != "" && filter != "None") ? "AND" : ""}
+         ${Array.isArray(filter) && searchString != "" && filterString != "" && filter[0] != "None" ? "AND" : ""}
+         ${!Array.isArray(filter) && searchString != "" && filterString != "" && filter != "None" ? "AND" : ""}
          ${filterString}
       `,
       (err, rows) => {
@@ -89,7 +101,7 @@ function listBooksNum(filter, search) {
           return;
         }
         resolve(rows[0]);
-      }
+      },
     );
   });
 }
@@ -117,7 +129,7 @@ function getBook(id) {
           return;
         }
         resolve(rows);
-      }
+      },
     );
   });
 }
@@ -143,7 +155,7 @@ function getBookReviews(id) {
           return;
         }
         resolve(rows);
-      }
+      },
     );
   });
 }
@@ -162,7 +174,7 @@ function listAllGenres() {
           return;
         }
         resolve(rows);
-      }
+      },
     );
   });
 }
@@ -186,7 +198,7 @@ function listAllBooks() {
           return;
         }
         resolve(rows);
-      }
+      },
     );
   });
 }
@@ -206,7 +218,7 @@ function createBook(bookData) {
         $author: bookData.author,
         $cover_url: bookData.cover_url,
         $genre: bookData.genre,
-        $description: bookData.description
+        $description: bookData.description,
       },
       function (err) {
         if (err) {
@@ -214,7 +226,7 @@ function createBook(bookData) {
           return;
         }
         resolve({ id: this.lastID, ...bookData });
-      }
+      },
     );
   });
 }
@@ -237,7 +249,7 @@ function updateBook(bookData) {
         $author: bookData.author,
         $cover_url: bookData.cover_url,
         $genre: bookData.genre,
-        $description: bookData.description
+        $description: bookData.description,
       },
       function (err) {
         if (err) {
@@ -249,7 +261,7 @@ function updateBook(bookData) {
         } else {
           resolve(bookData);
         }
-      }
+      },
     );
   });
 }
@@ -262,5 +274,5 @@ module.exports = {
   listAllGenres,
   createBook,
   updateBook,
-  listAllBooks
+  listAllBooks,
 };

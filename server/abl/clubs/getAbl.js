@@ -6,9 +6,7 @@ const schema = {
   properties: {
     id: { type: "number" },
   },
-  required: [
-    "id",
-  ],
+  required: ["id"],
   additionalProperties: false,
 };
 

@@ -7,9 +7,9 @@ const schema = {
     id: { type: "integer" },
     userId: { type: "integer" },
     rating: { type: "integer", minimum: 1, maximum: 5 },
-    text: { type: "string" }
+    text: { type: "string" },
   },
-  required: ["id", "userId", "rating", "text"]
+  required: ["id", "userId", "rating", "text"],
 };
 
 const reviewDao = require("../../dao/reviews-dao.js");
@@ -22,7 +22,7 @@ async function UpdateAbl(req, res) {
         status: 400,
         type: "error",
         message: "Invalid request",
-        validationError: ajv.errors
+        validationError: ajv.errors,
       });
       return;
     }
@@ -32,7 +32,7 @@ async function UpdateAbl(req, res) {
       res.status(404).json({
         status: 404,
         type: "error",
-        message: "Review not found"
+        message: "Review not found",
       });
       return;
     }
@@ -41,14 +41,14 @@ async function UpdateAbl(req, res) {
       res.status(403).json({
         status: 403,
         type: "error",
-        message: "Unauthorized to update this review"
+        message: "Unauthorized to update this review",
       });
       return;
     }
 
     const updatedReview = await reviewDao.update(req.body.id, {
       rating: req.body.rating,
-      text: req.body.text
+      text: req.body.text,
     });
 
     res.status(200).json(updatedReview);
@@ -56,10 +56,9 @@ async function UpdateAbl(req, res) {
     res.status(500).json({
       status: 500,
       type: "error",
-      message: e.message
+      message: e.message,
     });
   }
 }
 
 module.exports = UpdateAbl;
-

@@ -300,6 +300,6 @@ router.post("", CreateAbl);
  *         genre_name:
  *           type: string
  *           example: Fiction
- * 
-*/
+ *
+ */
 module.exports = router;

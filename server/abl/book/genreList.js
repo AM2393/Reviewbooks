@@ -3,10 +3,8 @@ const ajv = new AJV();
 
 const bookDao = require("../../dao/book-dao.js");
 
-
 async function ListAbl(req, res) {
   try {
-    
     const genreList = await bookDao.listAllGenres();
 
     if (!genreList) {
@@ -16,9 +14,9 @@ async function ListAbl(req, res) {
       return;
     }
 
-    let tempGenreList = []
+    let tempGenreList = [];
     genreList.forEach((e) => {
-      tempGenreList.push(e.name)
+      tempGenreList.push(e.name);
     });
 
     res.status(200).json(tempGenreList);

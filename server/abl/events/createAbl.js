@@ -9,15 +9,8 @@ const schema = {
     club_id: { type: "integer" },
     start_date: { type: "string" },
     end_date: { type: "string" },
-
   },
-  required: [
-    "description",
-    "book_id",
-    "club_id",
-    "start_date",
-    "end_date",
-  ],
+  required: ["description", "book_id", "club_id", "start_date", "end_date"],
   additionalProperties: false,
 };
 
@@ -36,9 +29,7 @@ async function CreateAbl(req, res) {
       return;
     }
 
-    res.status(201).json(
-      await eventDao.create(req.body),
-    );
+    res.status(201).json(await eventDao.create(req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,

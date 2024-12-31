@@ -7,8 +7,8 @@ const schema = {
     id: {
       type: "number",
       multipleOf: 1,
-      minimum: 0
-    }
+      minimum: 0,
+    },
   },
   required: ["id"],
   additionalProperties: false,
@@ -18,10 +18,9 @@ const bookDao = require("../../dao/book-dao.js");
 
 async function ListAbl(req, res) {
   try {
-
     const dtoIn = {
-      id: Number(req.query.id)
-    }
+      id: Number(req.query.id),
+    };
 
     const valid = ajv.validate(schema, dtoIn);
     if (!valid) {
@@ -54,7 +53,7 @@ async function ListAbl(req, res) {
       return;
     }
 
-    book = {book: book[0], reviews}
+    book = { book: book[0], reviews };
 
     res.status(200).json(book);
   } catch (e) {

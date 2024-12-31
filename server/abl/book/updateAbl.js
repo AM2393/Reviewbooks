@@ -10,7 +10,7 @@ const schema = {
     author: { type: "string" },
     cover_url: { type: "string" },
     genre: { type: "string" },
-    description: { type: "string" }
+    description: { type: "string" },
   },
   required: ["id"],
   additionalProperties: false,
@@ -49,4 +49,3 @@ async function UpdateAbl(req, res) {
 }
 
 module.exports = UpdateAbl;
-

@@ -13,7 +13,7 @@ function listAll() {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -35,7 +35,7 @@ function get(genreId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -51,7 +51,7 @@ function patch(genre, newData) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -73,7 +73,7 @@ function create(genre) {
           id: generatedId,
           name: genre.name,
         });
-      }
+      },
     );
   });
 }

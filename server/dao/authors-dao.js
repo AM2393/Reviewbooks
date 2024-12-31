@@ -13,7 +13,7 @@ function listAll() {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -35,7 +35,7 @@ function get(authorId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -51,7 +51,7 @@ function patch(author, newData) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -73,7 +73,7 @@ function create(author) {
           id: generatedId,
           full_name: author.full_name,
         });
-      }
+      },
     );
   });
 }

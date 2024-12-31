@@ -7,10 +7,10 @@ const schema = {
     userId: { type: "integer" },
     bookId: { type: "integer" },
     eventId: { type: "integer" },
-    text: { type: "string" }
+    text: { type: "string" },
   },
   required: ["userId", "bookId", "eventId", "text"],
-  additionalProperties: false
+  additionalProperties: false,
 };
 
 const reviewDao = require("../../dao/reviews-dao.js");
@@ -23,7 +23,7 @@ async function CreateAbl(req, res) {
         status: 400,
         type: "error",
         message: "Invalid request",
-        validationError: ajv.errors
+        validationError: ajv.errors,
       });
       return;
     }
@@ -34,10 +34,9 @@ async function CreateAbl(req, res) {
     res.status(500).json({
       status: 500,
       type: "error",
-      message: e.message
+      message: e.message,
     });
   }
 }
 
 module.exports = CreateAbl;
-

@@ -140,8 +140,6 @@ router.put("/update", UpdateAbl);
  */
 router.delete("/remove", RemoveAbl);
 
-
 router.get("/get/:id", GetAbl);
 
 module.exports = router;
-

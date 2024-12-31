@@ -8,7 +8,7 @@ function listAll() {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -48,7 +48,7 @@ function get(clubId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -68,7 +68,7 @@ function patch(club, newData) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -97,7 +97,7 @@ function create(club) {
           created_at: created_at,
           user_id: club.user_id,
         });
-      }
+      },
     );
   });
 }
@@ -122,14 +122,14 @@ const addMemberToClub = (userId, clubId) => {
 
       if (row.count > 0) {
         return reject(
-          new Error("Membership already exists for this user in the club")
+          new Error("Membership already exists for this user in the club"),
         );
       }
 
       db.run(insertQuery, [clubId, userId], function (err) {
         if (err) {
           return reject(
-            new Error(`Error adding member to club: ${err.message}`)
+            new Error(`Error adding member to club: ${err.message}`),
           );
         }
 

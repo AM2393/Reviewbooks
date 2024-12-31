@@ -4,9 +4,9 @@ const ajv = new AJV({ coerceTypes: true });
 const schema = {
   type: "object",
   properties: {
-    id: { type: "integer" }
+    id: { type: "integer" },
   },
-  required: ["id"]
+  required: ["id"],
 };
 
 const reviewDao = require("../../dao/reviews-dao.js");
@@ -19,7 +19,7 @@ async function GetAbl(req, res) {
         status: 400,
         type: "error",
         message: "Invalid request",
-        validationError: ajv.errors
+        validationError: ajv.errors,
       });
       return;
     }
@@ -29,7 +29,7 @@ async function GetAbl(req, res) {
       res.status(404).json({
         status: 404,
         type: "error",
-        message: "Review not found"
+        message: "Review not found",
       });
       return;
     }
@@ -39,10 +39,9 @@ async function GetAbl(req, res) {
     res.status(500).json({
       status: 500,
       type: "error",
-      message: e.message
+      message: e.message,
     });
   }
 }
 
 module.exports = GetAbl;
-

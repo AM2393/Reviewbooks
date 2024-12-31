@@ -34,7 +34,7 @@ function listAll() {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -77,7 +77,7 @@ function get(eventId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -119,7 +119,7 @@ function getClubEvents(clubId) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -141,7 +141,7 @@ function patch(event, newData) {
       (err, row) => {
         if (err) reject(err);
         resolve(row);
-      }
+      },
     );
   });
 }
@@ -171,7 +171,7 @@ function create(event) {
           start_date: event.start_date,
           end_date: event.end_date,
         });
-      }
+      },
     );
   });
 }

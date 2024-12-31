@@ -6,9 +6,7 @@ const schema = {
   properties: {
     id: { type: "number" },
   },
-  required: [
-    "id",
-  ],
+  required: ["id"],
   additionalProperties: false,
 };
 
@@ -38,9 +36,7 @@ async function PatchAbl(req, res) {
     }
 
     // console.debug(event, req.body);
-    res.status(200).json(
-      await eventDao.patch(event, req.body),
-    );
+    res.status(200).json(await eventDao.patch(event, req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,

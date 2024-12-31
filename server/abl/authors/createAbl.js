@@ -6,9 +6,7 @@ const schema = {
   properties: {
     full_name: { type: "string" },
   },
-  required: [
-    "full_name",
-  ],
+  required: ["full_name"],
   additionalProperties: false,
 };
 
@@ -27,9 +25,7 @@ async function CreateAbl(req, res) {
       return;
     }
 
-    res.status(201).json(
-      await authorDao.create(req.body),
-    );
+    res.status(201).json(await authorDao.create(req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,

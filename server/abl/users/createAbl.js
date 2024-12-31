@@ -32,7 +32,7 @@ async function CreateAbl(req, res) {
     const usersList = await userDao.listAll();
     const emailExists = Array.prototype.some.call(
       usersList,
-      (u) => u.email === req.body.email
+      (u) => u.email === req.body.email,
     );
     if (emailExists) {
       res.status(409).json({

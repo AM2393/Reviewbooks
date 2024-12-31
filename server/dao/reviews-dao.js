@@ -11,7 +11,7 @@ function create(review) {
         $bookId: review.bookId,
         $text: review.text,
         $created_at: created_at,
-        $event_id: review.eventId
+        $event_id: review.eventId,
       },
       function (err) {
         if (err) {
@@ -24,26 +24,22 @@ function create(review) {
           bookId: review.bookId,
           text: review.text,
           createdAt: created_at,
-          eventId: review.eventId
+          eventId: review.eventId,
         });
-      }
+      },
     );
   });
 }
 
 function get(id) {
   return new Promise((resolve, reject) => {
-    db.get(
-      "SELECT * FROM Reviews WHERE id = ?",
-      [id],
-      (err, row) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(row);
-        }
+    db.get("SELECT * FROM Reviews WHERE id = ?", [id], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row);
       }
-    );
+    });
   });
 }
 
@@ -68,7 +64,7 @@ function list(eventId) {
       params.push(eventId);
     }
 
-    query += " ORDER BY Reviews.created_at DESC"
+    query += " ORDER BY Reviews.created_at DESC";
 
     db.all(query, params, (err, rows) => {
       if (err) {
@@ -89,7 +85,7 @@ function update(id, reviewData) {
         $id: id,
         $rating: reviewData.rating,
         $text: reviewData.text,
-        $updated_at: updated_at
+        $updated_at: updated_at,
       },
       function (err) {
         if (err) {
@@ -103,30 +99,26 @@ function update(id, reviewData) {
         resolve({
           id: id,
           ...reviewData,
-          updatedAt: updated_at
+          updatedAt: updated_at,
         });
-      }
+      },
     );
   });
 }
 
 function remove(id) {
   return new Promise((resolve, reject) => {
-    db.run(
-      "DELETE FROM Reviews WHERE id = ?",
-      [id],
-      function (err) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (this.changes === 0) {
-          reject(new Error("Review not found"));
-          return;
-        }
-        resolve();
+    db.run("DELETE FROM Reviews WHERE id = ?", [id], function (err) {
+      if (err) {
+        reject(err);
+        return;
       }
-    );
+      if (this.changes === 0) {
+        reject(new Error("Review not found"));
+        return;
+      }
+      resolve();
+    });
   });
 }
 
@@ -135,6 +127,5 @@ module.exports = {
   get,
   list,
   update,
-  remove
+  remove,
 };
-

@@ -6,9 +6,7 @@ const schema = {
   properties: {
     id: { type: "number" },
   },
-  required: [
-    "id",
-  ],
+  required: ["id"],
   additionalProperties: false,
   // first_name: { type: "string" },
   // last_name: { type: "string" },
@@ -42,9 +40,7 @@ async function PatchAbl(req, res) {
     }
 
     console.debug(user, req.body);
-    res.status(200).json(
-      await userDao.patch(user, req.body),
-    );
+    res.status(200).json(await userDao.patch(user, req.body));
   } catch (e) {
     res.status(500).json({
       status: 500,
