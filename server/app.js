@@ -48,8 +48,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${port}/api/v1/`,
-        description: "Local development server API",
+        url: `https://amulanga-reviewbooks.fly.dev:${port}/api/v1/`,
+        description: "Flyio deployment server API",
       },
     ],
     tags: [
@@ -68,12 +68,22 @@ const swaggerSpec = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// /**
+//  * @openapi
+//  * /:
+//  *   get:
+//  *     description: Returns Hello World!
+//  *     responses:
+//  *       200:
+//  *         description: Hello World!
+//  */
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 app.listen(port, host, () => {
