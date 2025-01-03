@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
+import {SERVER, SERVER_API} from "../constants/constants";
 
 import Button from 'react-bootstrap/Button';
 
@@ -38,7 +39,7 @@ const Pagination = () => {
     if (value == tempLimit) return;
     setTempLimit(pageLimit);
     window.location.replace(
-      `http://localhost:3001/library?page=1&limit=${pageLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+      `${SERVER_API}/library?page=1&limit=${pageLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
     );
   };
 
@@ -49,7 +50,7 @@ const Pagination = () => {
   function previousPage() {
     if (page > 1) {
       window.location.replace(
-        `http://localhost:3001/library?page=${urlPage - 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+        `${SERVER_API}/library?page=${urlPage - 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
       );
       changePage(page - 1);
     }
@@ -57,7 +58,7 @@ const Pagination = () => {
   function nextPage() {
     if (page < pagesNum) {
       window.location.replace(
-        `http://localhost:3001/library?page=${urlPage + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+        `${SERVER_API}/library?page=${urlPage + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
       );
       changePage(page + 1);
     }
@@ -65,7 +66,7 @@ const Pagination = () => {
   function firstPage() {
     if (page <= 1) return;
     window.location.replace(
-      `http://localhost:3001/library?page=1&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+      `${SERVER_API}/library?page=1&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
     );
     changePage(1);
   }
@@ -73,7 +74,7 @@ const Pagination = () => {
     if (page >= pagesNum) return;
     changePage(pagesNum);
     window.location.replace(
-      `http://localhost:3001/library?page=${pagesNum}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+      `${SERVER_API}/library?page=${pagesNum}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
     );
   }
 
@@ -149,10 +150,10 @@ const Pagination = () => {
                   style={{ boxShadow: '0px 6px 8px 0px #80808050' }}
                   onClick={() => {
                     window.location.replace(
-                      `http://localhost:3001/library?page=${index + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+                      `${SERVER_API}/library?page=${index + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
                     );
                     changeUrl(
-                      `http://localhost:3001/library?page=${index + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
+                      `${SERVER_API}/library?page=${index + 1}&limit=${urlLimit}&filter=%22${urlFilter}%22&search=%22${urlSearch}%22`
                     );
                   }}
                 >

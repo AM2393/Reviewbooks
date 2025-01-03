@@ -132,7 +132,7 @@ const DataTest = () => {
                             changeFilter(tempFilter);
                             setShowFilter(false);
                             window.location.replace(
-                              `http://localhost:3001/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22${urlSearch}%22`
+                              `${SERVER_API}/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22${urlSearch}%22`
                             );
                           }}
                         >
@@ -159,11 +159,11 @@ const DataTest = () => {
                           changeSearch(tempSearch ? '' : tempSearch);
                           if (tempSearch) {
                             window.location.replace(
-                              `http://localhost:3001/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22${tempSearch}%22`
+                              `${SERVER_API}/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22${tempSearch}%22`
                             );
                           } else {
                             window.location.replace(
-                              `http://localhost:3001/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22%22`
+                              `${SERVER_API}/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22%22`
                             );
                           }
                         }}
@@ -193,7 +193,7 @@ const DataTest = () => {
                         variant="light"
                         onClick={() =>
                           window.location.replace(
-                            `http://localhost:3001/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22%22`
+                            `${SERVER_API}/library?page=1&limit=${defaultLimit}&filter=%22${tempFilter}%22&search=%22%22`
                           )
                         }
                       >
