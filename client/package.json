@@ -1,5 +1,5 @@
-{"homepage": "https://am2393.github.io/Reviewbooks/",
-  "name": "bookclubs",
+{"homepage": ".",
+  "name": "amubookclubs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

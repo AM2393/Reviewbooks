@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_API } from '../constants/constants';
 import { useParams } from 'react-router-dom';
 
-import Button from "react-bootstrap/Button";
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function NewEventModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +41,6 @@ export default function NewEventModal() {
     }, 300);
   };
 
-
   useEffect(() => {
     fetchAllBooks();
   }, []);
@@ -51,14 +50,13 @@ export default function NewEventModal() {
     try {
       const response = await fetch(`${SERVER_API}/book/listAllBooks`);
       const books = await response.json();
-      setBooks(books)
+      setBooks(books);
       setPending(false);
       return;
     } catch (err) {
       setShowAlert(err);
     }
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,28 +67,28 @@ export default function NewEventModal() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    if (data.book_id == "") {
-      setBookError(true)
+    if (data.book_id == '') {
+      setBookError(true);
     } else {
-      setBookError(false)
+      setBookError(false);
     }
 
-    if (data.description == "") {
-      setDescriptionError(true)
+    if (data.description == '') {
+      setDescriptionError(true);
     } else {
-      setDescriptionError(false)
+      setDescriptionError(false);
     }
 
-    if (data.start_date == "") {
-      setStartDateError(true)
+    if (data.start_date == '') {
+      setStartDateError(true);
     } else {
-      setStartDateError(false)
+      setStartDateError(false);
     }
 
-    if (data.end_date == "") {
-      setEndDateError(true)
+    if (data.end_date == '') {
+      setEndDateError(true);
     } else {
-      setEndDateError(false)
+      setEndDateError(false);
     }
 
     if (!form.checkValidity()) {
@@ -101,8 +99,8 @@ export default function NewEventModal() {
 
     setValidated(true);
 
-    const newStartDate = `${data.start_date}T00:00:00.00Z`
-    const newEndDate = `${data.end_date}T00:00:00.00Z`
+    const newStartDate = `${data.start_date}T00:00:00.00Z`;
+    const newEndDate = `${data.end_date}T00:00:00.00Z`;
 
     const createClubEvent = await fetch(`${SERVER_API}/events`, {
       method: 'POST',
@@ -114,7 +112,7 @@ export default function NewEventModal() {
     if (createClubEvent) {
       setPending(false);
       closeModal();
-      const newEvent = await createClubEvent.json()
+      const newEvent = await createClubEvent.json();
       navigate(`/event/${newEvent.id}`);
     }
   };
@@ -125,33 +123,35 @@ export default function NewEventModal() {
         Create Event
       </Button>
       {isModalOpen && (
-        <div className={`modal-overlay ${isClosing ? "closing" : ""}`}>
-          <div className={`modal-content ${isClosing ? "closing" : ""}`}>
+        <div className={`modal-overlay ${isClosing ? 'closing' : ''}`}>
+          <div className={`modal-content ${isClosing ? 'closing' : ''}`}>
             <h3 className="center">Create new event</h3>
-            <Form noValidate validated={validated} id='form' onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} id="form" onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="createEvent.book">
                 <Form.Label>Book</Form.Label>
                 <Form.Select required name="book_id" isInvalid={bookError}>
                   <option value={''}>Select a book</option>
-                  {allBooks.map(book => (
-                    <option key={book.id} value={`${book.id}`}>{book.title}</option>
+                  {allBooks.map((book) => (
+                    <option key={book.id} value={`${book.id}`}>
+                      {book.title}
+                    </option>
                   ))}
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">Please enter a book name</Form.Control.Feedback>
               </Form.Group>
               <div className=" mb-3">
-                Can't find the book? {" "}
+                Can't find the book?{' '}
                 <Link
                   to="/library"
                   style={{
                     color: '#007bff',
-                    textDecoration: 'none'
+                    textDecoration: 'none',
                   }}
                 >
                   Add it to your library
                 </Link>
               </div>
-              <Form.Group className="mb-3" >
+              <Form.Group className="mb-3">
                 <Form.Label>Event description</Form.Label>
                 <Form.Control as="textarea" rows={3} required name="description" isInvalid={descriptionError} />
                 <Form.Control.Feedback type="invalid">Please enter an event description</Form.Control.Feedback>
@@ -167,13 +167,13 @@ export default function NewEventModal() {
                       startDate={startDate}
                       endDate={endDate}
                       placeholderText="Start Date"
-                      className={`form-control ${startDateError ? "is-invalid" : ""}`}
+                      className={`form-control ${startDateError ? 'is-invalid' : ''}`}
                       dateFormat="yyyy-MM-dd"
                       required
                       name="start_date"
                     />
                     {startDateError && (
-                      <Form.Control.Feedback type="invalid" style={{ display: "block" }}>
+                      <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
                         Please select a valid date.
                       </Form.Control.Feedback>
                     )}
@@ -187,13 +187,13 @@ export default function NewEventModal() {
                       endDate={endDate}
                       minDate={startDate}
                       placeholderText="End Date"
-                      className={`form-control ${endDateError ? "is-invalid" : ""}`}
+                      className={`form-control ${endDateError ? 'is-invalid' : ''}`}
                       dateFormat="yyyy-MM-dd"
                       required
                       name="end_date"
                     />
                     {endDateError && (
-                      <Form.Control.Feedback type="invalid" style={{ display: "block" }}>
+                      <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
                         Please select a valid date.
                       </Form.Control.Feedback>
                     )}

@@ -12,6 +12,10 @@ RUN npm run build
 FROM node:20-slim as server-builder
 WORKDIR /app/server
 COPY server/package*.json ./
+
+# Install build essentials for SQLite3
+RUN apt-get update && \
+    apt-get install -y python3 make g++ python3-pip build-essential
 RUN npm install
 COPY server/ .
 
@@ -19,10 +23,10 @@ COPY server/ .
 FROM node:20-slim
 WORKDIR /app
 
-# Install necessary system dependencies
-RUN apt-get update && apt-get install -y \
-    sqlite3 \
-    && rm -rf /var/lib/apt/lists/*
+# Install required dependencies for SQLite3
+RUN apt-get update && \
+    apt-get install -y python3 make g++ python3-pip build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy built client files and server files
 COPY --from=client-builder /app/client/build ./client/build
@@ -31,42 +35,15 @@ COPY --from=server-builder /app/server ./server
 # Set working directory to server
 WORKDIR /app/server
 
-# Create database directory
-RUN mkdir -p /app/server/database && chown -R node:node /app/server/database
-
-# Install only production dependencies
-RUN npm install --only=production
-
-# Switch to non-root user
-USER node
-
-# Create startup script with error handling
-RUN echo '#!/bin/sh\n\
-set -e\n\
-\n\
-# Ensure database directory exists\n\
-mkdir -p /app/server/database\n\
-\n\
-# Initialize database with error handling\n\
-echo "Initializing database..."\n\
-npm run init-db || {\n\
-    echo "Database initialization failed"\n\
-    exit 1\n\
-}\n\
-\n\
-# Start the server\n\
-echo "Starting server..."\n\
-exec node app.js\n\
-' > /app/server/start.sh
-
-RUN chmod +x /app/server/start.sh
+# Install production dependencies and rebuild SQLite3
+RUN npm install --only=production && \
+    npm rebuild sqlite3 --build-from-source
 
 # Expose the port
 EXPOSE 8080
 
-# Set environment variables
+# Set environment variable
 ENV NODE_ENV=production
-ENV DB_PATH=/app/server/database/OpenPage
 
-# Use the startup script
-CMD ["/app/server/start.sh"]
+# Run database initialization and then start the server
+CMD ["node", "app.js"]

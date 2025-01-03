@@ -12,7 +12,7 @@ import Card from 'react-bootstrap/Card';
 
 import { SERVER_API } from '../constants/constants';
 
-import BookReview from "../components/BookReview.js"
+import BookReview from '../components/BookReview.js';
 
 const EventPage = () => {
   const [event, setEvent] = useState(null);
@@ -87,11 +87,14 @@ const EventPage = () => {
           </div>
         </Card>
 
-        {event && <BookReview props={{
-          eventId: event.event_id,
-          bookId: event.book_id
-        }}/>}
-
+        {event && (
+          <BookReview
+            props={{
+              eventId: event.event_id,
+              bookId: event.book_id,
+            }}
+          />
+        )}
       </Container>
       <Footer />
     </>

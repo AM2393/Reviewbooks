@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
+import { SERVER, SERVER_API } from '../constants/constants';
 
 export function BookFormModal({ buttonText, mode = 'add', initialData = null, show, onHide, onSubmitSuccess }) {
   const [formData, setFormData] = useState({
@@ -8,9 +9,9 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
     author: '',
     genre: '',
     description: '',
-    cover_url: ''
+    cover_url: '',
   });
-  
+
   const resetForm = () => {
     setFormData({
       title: '',
@@ -18,7 +19,7 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
       author: '',
       genre: '',
       description: '',
-      cover_url: ''
+      cover_url: '',
     });
     setErrors({});
   };
@@ -41,31 +42,31 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
 
   useEffect(() => {
     // Fetch authors
-    fetch('http://localhost:3000/api/v1/authors', {
+    fetch(`${SERVER_API}/authors`, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json'
-      }
+        Accept: 'application/json',
+      },
     })
-      .then(response => response.json())
-      .then(data => setAuthors(data))
-      .catch(error => {
+      .then((response) => response.json())
+      .then((data) => setAuthors(data))
+      .catch((error) => {
         console.error('Error fetching authors:', error);
-        setErrors(prev => ({ ...prev, fetchAuthors: 'Failed to load authors' }));
+        setErrors((prev) => ({ ...prev, fetchAuthors: 'Failed to load authors' }));
       });
 
     // Fetch genres
-    fetch('http://localhost:3000/api/v1/genres', {
+    fetch(`${SERVER_API}/genres`, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json'
-      }
+        Accept: 'application/json',
+      },
     })
-      .then(response => response.json())
-      .then(data => setGenres(data))
-      .catch(error => {
+      .then((response) => response.json())
+      .then((data) => setGenres(data))
+      .catch((error) => {
         console.error('Error fetching genres:', error);
-        setErrors(prev => ({ ...prev, fetchGenres: 'Failed to load genres' }));
+        setErrors((prev) => ({ ...prev, fetchGenres: 'Failed to load genres' }));
       });
   }, []);
 
@@ -83,10 +84,8 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
     e.preventDefault();
     if (validateForm()) {
       try {
-        const url = mode === 'add' 
-          ? 'http://localhost:3000/api/v1/book/create'
-          : `http://localhost:3000/api/v1/book/update?id=${initialData.id}`;
-        
+        const url = mode === 'add' ? `${SERVER_API}/book/create` : `${SERVER_API}/book/update?id=${initialData.id}`;
+
         const method = mode === 'add' ? 'POST' : 'PUT';
 
         const response = await fetch(url, {
@@ -94,7 +93,7 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(formData),
         });
 
         if (response.ok) {
@@ -107,35 +106,36 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
           const errorData = await response.json();
           throw new Error(errorData.message || `Failed to ${mode === 'add' ? 'add' : 'update'} book`);
         }
-
       } catch (error) {
-        setErrors(prev => ({ ...prev, submit: error.message }));
+        setErrors((prev) => ({ ...prev, submit: error.message }));
       }
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     if (name === 'author') {
-      const filtered = authors.filter(author => 
-        author.full_name.toLowerCase().includes(value.toLowerCase())
-      );
+      const filtered = authors.filter((author) => author.full_name.toLowerCase().includes(value.toLowerCase()));
       setAuthorSuggestions(filtered);
     } else if (name === 'genre') {
-      const filtered = genres.filter(genre => 
-        genre.name.toLowerCase().includes(value.toLowerCase())
-      );
+      const filtered = genres.filter((genre) => genre.name.toLowerCase().includes(value.toLowerCase()));
       setGenreSuggestions(filtered);
     }
   };
 
   return (
-    <Modal show={show} onHide={() => { resetForm(); onHide(); }}>
+    <Modal
+      show={show}
+      onHide={() => {
+        resetForm();
+        onHide();
+      }}
+    >
       <Modal.Header closeButton>
         <Modal.Title>{mode === 'add' ? 'Add New Book' : 'Edit Book'}</Modal.Title>
       </Modal.Header>
@@ -177,12 +177,12 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
             <Form.Control.Feedback type="invalid">{errors.author}</Form.Control.Feedback>
             {authorSuggestions.length > 0 && (
               <ListGroup className="position-absolute w-100">
-                {authorSuggestions.map(author => (
+                {authorSuggestions.map((author) => (
                   <ListGroup.Item
                     key={author.id}
                     action
                     onClick={() => {
-                      setFormData(prev => ({ ...prev, author: author.full_name }));
+                      setFormData((prev) => ({ ...prev, author: author.full_name }));
                       setAuthorSuggestions([]);
                     }}
                   >
@@ -205,12 +205,12 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
             <Form.Control.Feedback type="invalid">{errors.genre}</Form.Control.Feedback>
             {genreSuggestions.length > 0 && (
               <ListGroup className="position-absolute w-100">
-                {genreSuggestions.map(genre => (
+                {genreSuggestions.map((genre) => (
                   <ListGroup.Item
                     key={genre.id}
                     action
                     onClick={() => {
-                      setFormData(prev => ({ ...prev, genre: genre.name }));
+                      setFormData((prev) => ({ ...prev, genre: genre.name }));
                       setGenreSuggestions([]);
                     }}
                   >
@@ -234,27 +234,25 @@ export function BookFormModal({ buttonText, mode = 'add', initialData = null, sh
 
           <Form.Group className="mb-3">
             <Form.Label>Book Cover URL</Form.Label>
-            <Form.Control
-              type="url"
-              name="cover_url"
-              value={formData.cover_url}
-              onChange={handleInputChange}
-            />
+            <Form.Control type="url" name="cover_url" value={formData.cover_url} onChange={handleInputChange} />
           </Form.Group>
         </Form>
-        {errors.submit && (
-          <div className="alert alert-danger mt-3">{errors.submit}</div>
-        )}
+        {errors.submit && <div className="alert alert-danger mt-3">{errors.submit}</div>}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleSubmit} style={{ backgroundColor: '#714300', borderColor: '#714300' }}>
           {mode === 'add' ? 'Add Book' : 'Save Changes'}
         </Button>
-        <Button variant="secondary" onClick={() => { resetForm(); onHide(); }}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            resetForm();
+            onHide();
+          }}
+        >
           Cancel
         </Button>
       </Modal.Footer>
     </Modal>
   );
 }
-

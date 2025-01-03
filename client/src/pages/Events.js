@@ -26,7 +26,7 @@ const Events = () => {
               {eventsListObject.length > 0 ? (
                 eventsListObject
                   .filter((group) => group.some((event) => new Date(event.end_date) > new Date()))
-                  .map((events, groupIndex) => (
+                  .map((events, groupIndex) =>
                     events
                       .filter((event) => new Date(event.end_date) > new Date())
                       .map((event, index) => (
@@ -47,7 +47,7 @@ const Events = () => {
                           </Card.Body>
                         </Card>
                       ))
-                  ))
+                  )
               ) : (
                 <div>
                   <h3>No events found.</h3>
@@ -55,11 +55,11 @@ const Events = () => {
               )}
             </div>
           </>
-        ) :
+        ) : (
           <div>
             <h3>loading</h3>
           </div>
-        }
+        )}
         {authUser.loaded && !handlerMap.isLoggedIn() && (
           <>
             <Intro />

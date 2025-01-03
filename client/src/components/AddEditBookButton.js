@@ -10,20 +10,10 @@ export function AddEditBookButton({ buttonText, mode = 'add', bookData = null })
 
   return (
     <>
-      <Button 
-        onClick={openModal} 
-        variant="primary" 
-        style={{ backgroundColor: '#714300', borderColor: '#714300' }}
-      >
+      <Button onClick={openModal} variant="primary" style={{ backgroundColor: '#714300', borderColor: '#714300' }}>
         {buttonText}
       </Button>
-      <BookFormModal
-        show={isModalOpen}
-        onHide={closeModal}
-        mode={mode}
-        initialData={bookData}
-      />
+      <BookFormModal show={isModalOpen} onHide={closeModal} mode={mode} initialData={bookData} />
     </>
   );
 }
-

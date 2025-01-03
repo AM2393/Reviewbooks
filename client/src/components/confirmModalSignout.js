@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
 export default function ConfirmModalSignout() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -7,15 +7,15 @@ export default function ConfirmModalSignout() {
 
   const openModal = () => {
     setIsModalOpen(true);
-    setIsClosing(false); 
+    setIsClosing(false);
   };
 
   const closeModal = () => {
-    setIsClosing(true); 
+    setIsClosing(true);
     setTimeout(() => {
-      setIsModalOpen(false); 
-      setIsClosing(false); 
-    }, 300); 
+      setIsModalOpen(false);
+      setIsClosing(false);
+    }, 300);
   };
 
   return (
@@ -24,8 +24,8 @@ export default function ConfirmModalSignout() {
         Sign out
       </Button>
       {isModalOpen && (
-        <div className={`modal-overlay ${isClosing ? "closing" : ""}`}>
-          <div className={`modal-content ${isClosing ? "closing" : ""}`}>
+        <div className={`modal-overlay ${isClosing ? 'closing' : ''}`}>
+          <div className={`modal-content ${isClosing ? 'closing' : ''}`}>
             <p>Are you sure you want to sign out from the book club?</p>
             <div className="modal-buttons">
               <Button variant="primary" onClick={closeModal}>

@@ -130,7 +130,8 @@ const ClubPage = () => {
           </div>
           <div>
             <div className="archived-events-wrapper">
-              {archivedEvents.length > 0 && archivedEvents.map((event, index) => <ArchivedEvent event={event} key={index} />)}
+              {archivedEvents.length > 0 &&
+                archivedEvents.map((event, index) => <ArchivedEvent event={event} key={index} />)}
             </div>
             {archivedEvents.length === 0 && <Alert variant="dark">There are no archived events</Alert>}
           </div>
