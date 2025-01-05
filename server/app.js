@@ -9,7 +9,7 @@ const port = process.env.PORT || 8080;
 
 // Database path from environment variable
 const dbPath =
-  process.env.DB_PATH || path.join(__dirname, "/database/OpenPage");
+  process.env.DB_PATH || path.join(__dirname, "/volume/OpenPage");
 
 // Ensure data directory exists
 async function ensureDataDir() {

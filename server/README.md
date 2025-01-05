@@ -15,7 +15,7 @@ $ npm run init-db
 ```
 
 > [!NOTE]
-> Database will be created in `{projectRoot}/database/OpenPage`
+> Database will be created in `{projectRoot}/volume/OpenPage`
 > without the database app won't work
 
 ### Remove database data
